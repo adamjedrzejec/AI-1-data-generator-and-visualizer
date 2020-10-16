@@ -7,7 +7,7 @@ graphData = {'x': [], 'y': [], 'classType': []}
 
 
 class Classifier:
-    classType = 11
+    classType = 1
     variance = 0
 
     df = pd.DataFrame(data={'x': [], 'y': [], 'classType': []})
@@ -82,7 +82,7 @@ df = df.append(cl2.df)
 
 sns.scatterplot(data=df, x='x', y='y', hue='classType')
 
-plt.xlim(-0.5, 1.5)
-plt.ylim(-0.5, 1.5)
+plt.xlim(-0.1, 1.1)
+plt.ylim(-0.1, 1.1)
 
 plt.show()
