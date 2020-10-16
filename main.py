@@ -6,7 +6,7 @@ import numpy as np
 graphData = {'x': [], 'y': [], 'classType': []}
 
 
-class Classification:
+class Classifier:
     x = 0.5
     y = 0.75
     classType = 1
@@ -18,7 +18,7 @@ class Classification:
         self.y = y
         self.classType = classType
 
-    def makeNewSample(self, howMany):
+    def makeNewSamples(self, howMany):
         if howMany <= 0:
             print('\'howMany\' cannot be smaller or equal to 0')
 
@@ -30,22 +30,28 @@ class Classification:
                 self.df = self.df.append(
                     {'x': tempX, 'y': tempY, 'classType': self.classType}, ignore_index=True)
 
-# def getAllTogether():
+
+# making new classifiers
+cl1 = Classifier(0.5, 0.75, 1)
+cl1.makeNewSamples(30)
+
+cl2 = Classifier(3, 3, 2)
+cl2.makeNewSamples(30)
 
 
-cl1 = Classification(0.5, 0.75, 1)
-cl1.makeNewSample(30)
-
-cl2 = Classification(3, 3, 2)
-cl2.makeNewSample(30)
+# setting scope of the plot
 
 d = {'x': [0, 5], 'y': [0, 5], 'classType': [0, 0]}
 df = pd.DataFrame(data=d)
 
-# df = df.append({'x': 14, 'y': 14, 'class': 1}, ignore_index=True)
+
+# getting all the data altogether
 
 df = df.append(cl1.df)
 df = df.append(cl2.df)
+
+
+# displaying the plot
 
 sns.scatterplot(data=df, x='x', y='y', hue='classType')
 
