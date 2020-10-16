@@ -41,7 +41,7 @@ cl2.makeNewSamples(30)
 
 # setting scope of the plot
 
-d = {'x': [0, 5], 'y': [0, 5], 'classType': [0, 0]}
+d = {'x': [], 'y': [], 'classType': []}
 df = pd.DataFrame(data=d)
 
 
@@ -54,5 +54,8 @@ df = df.append(cl2.df)
 # displaying the plot
 
 sns.scatterplot(data=df, x='x', y='y', hue='classType')
+
+plt.xlim(0, 5)
+plt.ylim(0, 5)
 
 plt.show()
