@@ -7,19 +7,12 @@ graphData = {'x': [], 'y': [], 'classType': []}
 
 
 class Classifier:
-    x = 0
-    y = 0
-    classType = 1
-
+    classType = 11
     variance = 0
-
-    modes = []
 
     df = pd.DataFrame(data={'x': [], 'y': [], 'classType': []})
 
-    def __init__(self, x, y, variance, classType):
-        self.x = x
-        self.y = y
+    def __init__(self, variance, classType):
         self.variance = variance
         self.classType = classType
 
@@ -29,12 +22,11 @@ class Classifier:
                 '\'numberOfModes\' nor \'numberOfSamplesPerMode\' cannot be smaller or equal to 0')
 
         for i in range(numberOfModes):
-            mode = Mode(2 * i, i, self.classType)
-            self.modes.append(mode)
+            meanXY = np.random.uniform(0, 1, 2)
+            mode = Mode(meanXY[0], meanXY[1], self.classType)
 
-        for mode in self.modes:
-            for i in range(numberOfSamplesPerMode):
-                mode.generateSample()
+            for j in range(numberOfSamplesPerMode):
+                mode.generateSample(self.variance)
 
             for sample in mode.samples:
                 self.df = self.df.append(
@@ -50,9 +42,10 @@ class Mode:
     def __init__(self, meanX, meanY, classType):
         self.meanX = meanX
         self.meanY = meanY
+        self.samples = []
 
-    def generateSample(self):
-        sample = Sample(self.meanX, self.meanY, 0.2)
+    def generateSample(self, variance):
+        sample = Sample(self.meanX, self.meanY, variance)
         self.samples.append(sample)
 
 
@@ -66,11 +59,11 @@ class Sample:
 
 
 # making new classifiers
-cl1 = Classifier(0.5, 0.75, 0.2, 1)
-cl1.makeNewSamples(2, 30)
+cl1 = Classifier(0.02, 1)
+cl1.makeNewSamples(6, 20)
 
-cl2 = Classifier(3, 3, 0.2, 2)
-cl2.makeNewSamples(2, 30)
+cl2 = Classifier(0.02, 2)
+cl2.makeNewSamples(6, 20)
 
 
 # setting scope of the plot
@@ -89,7 +82,7 @@ df = df.append(cl2.df)
 
 sns.scatterplot(data=df, x='x', y='y', hue='classType')
 
-plt.xlim(0, 5)
-plt.ylim(0, 5)
+plt.xlim(-0.5, 1.5)
+plt.ylim(-0.5, 1.5)
 
 plt.show()
