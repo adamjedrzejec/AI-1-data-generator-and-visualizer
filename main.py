@@ -7,14 +7,15 @@ graphData = {'x': [], 'y': [], 'classType': []}
 
 
 class Classifier:
-    classType = 1
+    classType = 0
     variance = 0
 
     df = pd.DataFrame(data={'x': [], 'y': [], 'classType': []})
 
-    def __init__(self, variance, classType):
-        self.variance = variance
+    def __init__(self, classType):
+        self.variance = np.random.uniform(0.01, 0.04)
         self.classType = classType
+        print('v' + str(classType), self.variance)
 
     def makeNewSamples(self, numberOfModes, numberOfSamplesPerMode):
         if numberOfModes <= 0 or numberOfSamplesPerMode <= 0:
@@ -59,10 +60,10 @@ class Sample:
 
 
 # making new classifiers
-cl1 = Classifier(0.02, 1)
+cl1 = Classifier(1)
 cl1.makeNewSamples(6, 20)
 
-cl2 = Classifier(0.02, 2)
+cl2 = Classifier(2)
 cl2.makeNewSamples(6, 20)
 
 
