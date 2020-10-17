@@ -1,7 +1,15 @@
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import tkinter
+import tkinter.ttk
+import matplotlib
+
+matplotlib.use("TkAgg")
+
 
 graphData = {'x': [], 'y': [], 'classType': []}
 
@@ -59,13 +67,19 @@ class Sample:
         self.y = np.random.normal(loc=meanY, scale=variance)
 
 
+root = tkinter.Tk()
+root.wm_title("Embedding in Tk")
+
+button = tkinter.ttk.Button(root, text="Quit", command=root.quit)
+button.pack()
+
+
 # making new classifiers
 cl1 = Classifier(1)
 cl1.makeNewSamples(6, 20)
 
 cl2 = Classifier(2)
 cl2.makeNewSamples(6, 20)
-
 
 # setting scope of the plot
 
@@ -80,10 +94,18 @@ df = df.append(cl2.df)
 
 
 # displaying the plot
+fig, not_used_anywhere_but_has_to_be_here = plt.subplots(figsize=(5, 5))
 
 sns.scatterplot(data=df, x='x', y='y', hue='classType')
 
 plt.xlim(-0.1, 1.1)
 plt.ylim(-0.1, 1.1)
 
-plt.show()
+# plt.show()
+
+canvas = FigureCanvasTkAgg(fig, master=root)  # A tk.DrawingArea.
+canvas.draw()
+
+canvas.get_tk_widget().pack()
+
+root.mainloop()
