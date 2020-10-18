@@ -94,7 +94,7 @@ df = df.append(cl2.df)
 
 
 # displaying the plot
-fig, not_used_anywhere_but_has_to_be_here = plt.subplots(figsize=(5, 5))
+fig, not_used_anywhere_but_has_to_be_here = plt.subplots(figsize=(15, 15))
 
 sns.scatterplot(data=df, x='x', y='y', hue='classType')
 
