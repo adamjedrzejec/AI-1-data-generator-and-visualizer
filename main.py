@@ -83,15 +83,13 @@ cl2.makeNewSamples(6, 20)
 
 # setting scope of the plot
 
+
 d = {'x': [], 'y': [], 'classType': []}
 df = pd.DataFrame(data=d)
 
-
 # getting all the data altogether
-
 df = df.append(cl1.df)
 df = df.append(cl2.df)
-
 
 # displaying the plot
 fig, not_used_anywhere_but_has_to_be_here = plt.subplots(figsize=(15, 15))
@@ -105,6 +103,29 @@ plt.ylim(-0.1, 1.1)
 
 canvas = FigureCanvasTkAgg(fig, master=root)  # A tk.DrawingArea.
 canvas.draw()
+
+
+def render():
+    xd = {'x': [], 'y': [], 'classType': []}
+    xdf = pd.DataFrame(data=xd)
+    xdf = xdf.iloc[0:0]
+
+    cl1.makeNewSamples(6, 20)
+    cl2.makeNewSamples(6, 20)
+
+    xdf = xdf.append(cl1.df)
+    xdf = xdf.append(cl2.df)
+
+    print(xdf)
+
+    fig, not_used_anywhere_but_has_to_be_here = plt.subplots(figsize=(15, 15))
+    sns.scatterplot(data=xdf, x='x', y='y', hue='classType')
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    canvas.draw()
+
+
+button = tkinter.ttk.Button(root, text="Render", command=render)
+button.pack()
 
 canvas.get_tk_widget().pack()
 
