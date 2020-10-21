@@ -1,5 +1,7 @@
 # import modules that I'm using
 # from lmfit import minimize, Parameters, Minimizer
+import pandas as pd
+import seaborn as sns
 import scipy as sc
 import numpy as np
 from tkinter import *
@@ -10,11 +12,13 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib
 matplotlib.use('TKAgg')
-#import matplotlib.pyplot as pltlib
+# import matplotlib.pyplot as pltlib
 # lmfit is imported becuase parameters are allowed to depend on each other along with bounds, etc.
 
 
 # Make object for application
+
+
 class App_Window(tkinter.Tk):
     def __init__(self, parent):
         tkinter.Tk.__init__(self, parent)
@@ -22,10 +26,6 @@ class App_Window(tkinter.Tk):
         self.initialize()
 
     def initialize(self):
-        def setAxes(canv):
-            ax = canv.figure.axes[0]
-            ax.set_xlim(-0.1, 1.1)
-            ax.set_ylim(-0.1, 1.1)
 
         button = tkinter.ttk.Button(
             self, text="Open File", command=self.OnButtonClick)
@@ -35,27 +35,36 @@ class App_Window(tkinter.Tk):
             self, text="Quit", command=self.quit)
         button.pack(side=tkinter.TOP)
 
-        self.canvasFig = pltlib.figure(1)
+        # self.canvasFig = pltlib.figure(1)
         Fig = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
-        FigSubPlot = Fig.add_subplot(111)
+        self.FigSubPlot = Fig.add_subplot(1, 1, 1)
+
         x = []
         y = []
-        self.line1, = FigSubPlot.plot(x, y, 'r-')
-        self.canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(
+
+        self.FigSubPlot.scatter(x, y)
+        self.canvas = FigureCanvasTkAgg(
             Fig, master=self)
-        setAxes(self.canvas)
-        # self.canvas.show()
+        self.setAxes()
+
         self.canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
         self.canvas._tkcanvas.pack(
             side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+
         self.resizable(True, False)
         self.update()
 
-    def refreshFigure(self, x, y):
-        self.line1.set_data(x, y)
+    def setAxes(self):
         ax = self.canvas.figure.axes[0]
-        ax.set_xlim(x.min(), x.max())
-        ax.set_ylim(y.min(), y.max())
+        ax.set_xlim(-0.1, 1.1)
+        ax.set_ylim(-0.1, 1.1)
+
+    def refreshFigure(self, x, y):
+        self.FigSubPlot.clear()
+        self.FigSubPlot.scatter(0.2, 0.2)
+        # self.line1.set_data(x, y)
+        ax = self.canvas.figure.axes[0]
+        self.setAxes()
         self.canvas.draw()
 
     def OnButtonClick(self):
