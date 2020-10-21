@@ -30,6 +30,11 @@ class App_Window(tkinter.Tk):
         button = tkinter.ttk.Button(
             self, text="Open File", command=self.OnButtonClick)
         button.pack(side=tkinter.TOP)
+
+        button = tkinter.ttk.Button(
+            self, text="Quit", command=self.quit)
+        button.pack(side=tkinter.TOP)
+
         self.canvasFig = pltlib.figure(1)
         Fig = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
         FigSubPlot = Fig.add_subplot(111)
