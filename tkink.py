@@ -22,6 +22,11 @@ class App_Window(tkinter.Tk):
         self.initialize()
 
     def initialize(self):
+        def setAxes(canv):
+            ax = canv.figure.axes[0]
+            ax.set_xlim(-0.1, 1.1)
+            ax.set_ylim(-0.1, 1.1)
+
         button = tkinter.ttk.Button(
             self, text="Open File", command=self.OnButtonClick)
         button.pack(side=tkinter.TOP)
@@ -33,17 +38,13 @@ class App_Window(tkinter.Tk):
         self.line1, = FigSubPlot.plot(x, y, 'r-')
         self.canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(
             Fig, master=self)
+        setAxes(self.canvas)
         # self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
         self.canvas._tkcanvas.pack(
             side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
         self.resizable(True, False)
         self.update()
-
-    # def refreshFigure(self, x, y):
-    #     self.line1.set_xdata(x)
-    #     self.line1.set_ydata(y)
-    #     self.canvas.draw()
 
     def refreshFigure(self, x, y):
         self.line1.set_data(x, y)
