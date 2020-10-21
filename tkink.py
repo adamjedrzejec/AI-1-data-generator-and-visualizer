@@ -35,6 +35,9 @@ class App_Window(tkinter.Tk):
             self, text="Quit", command=self.quit)
         button.pack(side=tkinter.TOP)
 
+        self.input = tkinter.ttk.Entry(self)
+        self.input.pack(side=tkinter.TOP)
+
         # self.canvasFig = pltlib.figure(1)
         Fig = matplotlib.figure.Figure(figsize=(10, 8), dpi=100)
         self.FigSubPlot = Fig.add_subplot(1, 1, 1)
@@ -59,21 +62,22 @@ class App_Window(tkinter.Tk):
         ax.set_xlim(-0.1, 1.1)
         ax.set_ylim(-0.1, 1.1)
 
-    def refreshFigure(self, x, y):
-        self.FigSubPlot.clear()
-        self.FigSubPlot.scatter(x, y)
-        ax = self.canvas.figure.axes[0]
-        self.setAxes()
-        self.canvas.draw()
+    # def refreshFigure(self, x, y):
+    #     self.FigSubPlot.clear()
+    #     self.FigSubPlot.scatter(x, y)
+    #     ax = self.canvas.figure.axes[0]
+    #     self.setAxes()
+    #     self.canvas.draw()
 
     def OnButtonClick(self):
+        [a, b] = list(map(int, self.input.get().split(' ')))
         self.FigSubPlot.clear()
 
-        c = classifier.Classifier(5, 6)
+        c = classifier.Classifier(a, b)
         x, y = c.getAllSamples()
         self.FigSubPlot.scatter(x, y, c='b')
 
-        c = classifier.Classifier(5, 6)
+        c = classifier.Classifier(a, b)
         x, y = c.getAllSamples()
         self.FigSubPlot.scatter(x, y, c='k')
 
