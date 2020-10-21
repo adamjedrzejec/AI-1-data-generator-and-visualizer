@@ -1,5 +1,6 @@
 # import modules that I'm using
 # from lmfit import minimize, Parameters, Minimizer
+import classifier
 import pandas as pd
 import seaborn as sns
 import scipy as sc
@@ -14,7 +15,6 @@ import matplotlib
 matplotlib.use('TKAgg')
 # import matplotlib.pyplot as pltlib
 # lmfit is imported becuase parameters are allowed to depend on each other along with bounds, etc.
-
 
 # Make object for application
 
@@ -36,7 +36,7 @@ class App_Window(tkinter.Tk):
         button.pack(side=tkinter.TOP)
 
         # self.canvasFig = pltlib.figure(1)
-        Fig = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
+        Fig = matplotlib.figure.Figure(figsize=(10, 8), dpi=100)
         self.FigSubPlot = Fig.add_subplot(1, 1, 1)
 
         x = []
@@ -61,25 +61,26 @@ class App_Window(tkinter.Tk):
 
     def refreshFigure(self, x, y):
         self.FigSubPlot.clear()
-        self.FigSubPlot.scatter(0.2, 0.2)
-        # self.line1.set_data(x, y)
+        self.FigSubPlot.scatter(x, y)
         ax = self.canvas.figure.axes[0]
         self.setAxes()
         self.canvas.draw()
 
     def OnButtonClick(self):
-        # file is opened here and some data is taken
-        # I've just set some arrays here so it will compile alone
-        x = []
-        y = []
-        for num in range(0, 1000):
-            x.append(num*.001+1)
-        # just some random function is given here, the real data is a UV-Vis spectrum
-        for num2 in range(0, 1000):
-            y.append(sc.math.sin(num2*.06)+sc.math.e**(num2*.001))
-        X = np.array(x)
-        Y = np.array(y)
-        self.refreshFigure(X, Y)
+        self.FigSubPlot.clear()
+
+        c = classifier.Classifier(5, 6)
+        x, y = c.getAllSamples()
+        self.FigSubPlot.scatter(x, y, c='b')
+
+        c = classifier.Classifier(5, 6)
+        x, y = c.getAllSamples()
+        self.FigSubPlot.scatter(x, y, c='k')
+
+        ax = self.canvas.figure.axes[0]
+        self.setAxes()
+        self.canvas.draw()
+        # self.refreshFigure(x, y)
 
 
 if __name__ == "__main__":
